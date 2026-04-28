@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(curl -o img1.png https://p.ananas.chaoxing.com/star3/origin/ebd6d96142cc70a804946f0d0d8cece1.png)",
+      "Bash(curl -o img2.png https://p.ananas.chaoxing.com/star3/origin/ec40e2ed930a8ad9ea9cefc8bbec1f00.png)",
+      "Bash(curl -o img3.png https://p.ananas.chaoxing.com/star3/origin/5eda4373b0f4c317d5a50b060e46f6b4.png)"
+    ]
+  }
+}

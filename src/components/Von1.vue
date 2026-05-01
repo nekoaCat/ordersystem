@@ -7,7 +7,7 @@
     <!-- 在内联事件处理器中调用方法，并传递参数 3 -->
     <button v-on:click="change(3)">边长加3</button>
     <!-- 使用方法事件处理器，绑定 size 方法 -->
-    <button v-on:click="size">修改字体大小</button>
+    <button v-on:click="size" v-bind:style="{ fontSize: btnFontSize }">修改字体大小</button>
   </div>
 </template>
 
@@ -18,22 +18,22 @@ defineOptions({
 import { ref } from 'vue';
 // 响应式数据：标题字体大小，初始为 30px
 const fontSize = ref('30px');
+// 响应式数据：按钮字体大小，使用 ref 替代直接操作 event.target.style
+const btnFontSize = ref('15px');
 // 响应式数据：正方形的边长，初始为 2
 const len = ref(2);
 // 带参数的方法：将 len 增加指定长度
 const change = (length) => {
   len.value = len.value + length;
 };
-// 定义方法，并通过内置变量 event 获取事件对象
-const size = (event) => {
-  // 切换标题的字体大小
+// 使用 ref 响应式数据切换字体大小，避免直接操作 DOM
+const size = () => {
   if (fontSize.value === '30px') {
     fontSize.value = '40px';
-    // 同时修改按钮自身的字体大小（演示 event.target 的使用）
-    event.target.style.fontSize = '30px';
+    btnFontSize.value = '30px';
   } else {
     fontSize.value = '30px';
-    event.target.style.fontSize = '15px';
+    btnFontSize.value = '15px';
   }
 };
 </script>

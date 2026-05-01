@@ -13,26 +13,35 @@
   </div>
 </template>
 
-<script>
-export default {
+<script setup>
+import { ref } from 'vue'
+
+defineOptions({
   name: 'PersonCopy',
-  data() {
-    return {
-      name: '张三',
-      age: 18,
-      tel: '1234567890',
-      sex: true,
-      rawHtml: '<span style="font-style: italic;">Vue.js</span>',
-      color: 'red',
-    }
-  },
-  methods: {
-    ChangeName() {
-      this.name = '小强'
-      console.log(this.name)
-    },
-  },
+})
+
+// 使用 ref 声明响应式数据
+const name = ref('张三')
+const age = ref(18)
+const tel = ref('1234567890')
+const sex = ref(true)
+const rawHtml = ref('<span style="font-style: italic;">Vue.js</span>')
+const color = ref('red')
+
+// 修改姓名的方法
+function ChangeName() {
+  name.value = '小强'
+  console.log(name.value)
 }
+
+// 使用 defineExpose 暴露内部状态，父组件通过 ref 可以访问
+defineExpose({
+  name,
+  age,
+  tel,
+  sex,
+  color,
+})
 </script>
 
 <style scoped>

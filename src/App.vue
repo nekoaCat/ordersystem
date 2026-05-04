@@ -6,26 +6,15 @@
           <h1>Vue 订单系统 - 学习示例</h1>
         </el-header>
         <el-main>
+          <!-- 动态组件展示区域：自动映射 src/components 下所有 .vue 组件 -->
           <el-tabs v-model="activeTab" type="border-card">
-            <el-tab-pane label="v-model 双向绑定" name="vmodel">
-              <Vmodel />
-            </el-tab-pane>
-            <el-tab-pane label="事件处理" name="von2">
-              <Von2 />
-            </el-tab-pane>
-            <el-tab-pane label="ref 获取子组件" name="personcopy">
-              <!-- 使用 ref 属性声明模板引用，替代传统的 document.getElementById -->
-              <Personcopy ref="personcopyRef" />
-              <el-divider />
-              <el-button type="primary" @click="getChildData">
-                通过 ref 获取子组件数据
-              </el-button>
-              <el-button @click="resetChildName">重置子组件姓名</el-button>
-              <el-card v-if="childInfo" style="margin-top: 16px;">
-                <p>从子组件获取的姓名：{{ childInfo.name }}</p>
-                <p>从子组件获取的年龄：{{ childInfo.age }}</p>
-                <p>从子组件获取的电话：{{ childInfo.tel }}</p>
-              </el-card>
+            <el-tab-pane
+              v-for="(component, index) in dynamicComponents"
+              :key="index"
+              :label="component.meta.label"
+              :name="component.meta.name"
+            >
+              <component :is="component.component" />
             </el-tab-pane>
           </el-tabs>
         </el-main>
@@ -37,22 +26,37 @@
 <script setup>
 import { ref } from 'vue'
 import zhCn from 'element-plus/dist/locale/zh-cn.mjs'
-import Von2 from './components/Von2.vue'
-import Vmodel from './components/Vmodel.vue'
-import Personcopy from './components/personcopy.vue'
 import { ElMessage } from 'element-plus'
 
 defineOptions({
   name: 'App',
 })
 
-const activeTab = ref('vmodel')
+// 使用 import.meta.glob 动态导入 src/components 下所有 .vue 文件
+const componentModules = import.meta.glob('./components/*.vue')
 
-// 使用 ref(null) 声明子组件引用，替代 document.getElementById
+// 构建动态组件列表，包含元数据用于渲染 tab
+const dynamicComponents = Object.entries(componentModules).map(([path, module]) => {
+  // 从文件路径提取组件名，如 ./components/Vmodel.vue -> Vmodel
+  const fileName = path.split('/').pop().replace('.vue', '')
+  // 从模块的 default 组件获取 name 或使用文件名作为默认值
+  const componentName = module.default?.name || fileName
+
+  return {
+    component: module.default,
+    meta: {
+      // 使用文件名作为 tab label（可自定义映射逻辑）
+      label: fileName,
+      name: fileName,
+    },
+  }
+})
+
+// 兼容原有逻辑：保留特殊组件的 ref 访问能力
+const activeTab = ref(dynamicComponents.length > 0 ? dynamicComponents[0].meta.name : 'vmodel')
 const personcopyRef = ref(null)
 const childInfo = ref(null)
 
-// 通过 ref 访问子组件实例，读取 defineExpose 暴露的数据
 function getChildData() {
   if (personcopyRef.value) {
     childInfo.value = {
@@ -64,7 +68,6 @@ function getChildData() {
   }
 }
 
-// 通过 ref 修改子组件暴露的状态
 function resetChildName() {
   if (personcopyRef.value) {
     personcopyRef.value.name = '已重置'

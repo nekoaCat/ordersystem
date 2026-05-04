@@ -33,7 +33,8 @@ defineOptions({
 })
 
 // 使用 import.meta.glob 动态导入 src/components 下所有 .vue 文件
-const componentModules = import.meta.glob('./components/*.vue')
+// 使用 { eager: true } 让导入同步完成，直接获得模块对象而非异步函数
+const componentModules = import.meta.glob('./components/*.vue', { eager: true })
 
 // 构建动态组件列表，包含元数据用于渲染 tab
 const dynamicComponents = Object.entries(componentModules).map(([path, module]) => {

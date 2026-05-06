@@ -1,46 +1,51 @@
 <template>
   <div style="text-align: center">
-    <!-- 动态绑定 style，字体大小由 fontSize 决定；显示当前边长 len -->
-    <h2 v-bind:style="{ fontSize: fontSize }">正方形的边长是{{ len }}</h2>
-    <!-- 内联事件处理器：直接修改 len 的值（len++） -->
-    <button v-on:click="len++">边长加1</button>
-    <!-- 在内联事件处理器中调用方法，并传递参数 3 -->
-    <button v-on:click="change(3)">边长加3</button>
-    <!-- 使用方法事件处理器，绑定 size 方法 -->
-    <button v-on:click="size" v-bind:style="{ fontSize: btnFontSize }">修改字体大小</button>
+    <h2 v-bind:style="{fontSize:fontSize}">正方形的边长{{len}}</h2>
+    <!-- 内联时间：内部代码一行 -->
+    <!-- <button v-on:click="len++">边长+1</button>&NonBreakingSpace; -->
+    <button @click="len++">边长+1</button>&NonBreakingSpace;
+    <!-- 方法事件 -->
+    <!-- <button v-on:click="changeLen(3)">边长+3</button>&NonBreakingSpace; -->
+    <button @click="changeLen(3)">边长+3</button>&NonBreakingSpace;
+    <!-- 方法事件 -->
+    <!-- <button v-on:click="changeSize">改变字体大小</button> -->
+    <button @click="changeSize">改变字体大小</button>
   </div>
 </template>
-
 <script setup>
-defineOptions({
-  name: 'Von1',
-});
-import { ref } from 'vue';
-// 响应式数据：标题字体大小，初始为 30px
-const fontSize = ref('30px');
-// 响应式数据：按钮字体大小，使用 ref 替代直接操作 event.target.style
-const btnFontSize = ref('15px');
-// 响应式数据：正方形的边长，初始为 2
-const len = ref(2);
-// 带参数的方法：将 len 增加指定长度
-const change = (length) => {
-  len.value = len.value + length;
-};
-// 使用 ref 响应式数据切换字体大小，避免直接操作 DOM
-const size = () => {
-  if (fontSize.value === '30px') {
-    fontSize.value = '40px';
-    btnFontSize.value = '30px';
-  } else {
-    fontSize.value = '30px';
-    btnFontSize.value = '15px';
-  }
-};
-</script>
+import { ref } from "vue";
 
-<style scoped>
-button {
-  margin-right: 15px;
-  border-radius: 5px;
+//数据
+//边长
+const len = ref(2); //边长初始值2
+//字体大小
+const fontSize = ref("30px");//字体大小初始值
+//方法（函数）
+// function changeLen(length){
+//     len.value=len.value+length;
+// }
+let changeLen=(length)=>{
+    len.value=len.value+length;
 }
-</style>
+// function changeSize(event){
+// if(fontSize.value==='30px'){
+//     fontSize.value='40px';//字体大小由30px变为40px
+//     event.target.style.fontSize='30px';//按钮对象字体放到到30px
+//     //按钮对象字体放大到30px
+// }else{
+// fontSize.value='30px';//字体大小还原到初始值30px
+// event.target.style.fontSize='13px';//按你牛对象字体还原到初始大小
+// }
+// }
+let changeSize=(event)=>{
+if(fontSize.value==='30px'){
+    fontSize.value='40px';//字体大小由30px变为40px
+    event.target.style.fontSize='30px';//按钮对象字体放到到30px
+    //按钮对象字体放大到30px
+}else{
+fontSize.value='30px';//字体大小还原到初始值30px
+event.target.style.fontSize='13px';//按你牛对象字体还原到初始大小
+}
+}
+</script>
+<style scoped></style>

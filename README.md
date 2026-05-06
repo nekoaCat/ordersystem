@@ -2,6 +2,10 @@
 
 这是一个用于学习 Vue 3 的实战练习项目，采用 Vite + Vue 3 + Pinia + Vue Router 技术栈。
 
+## 在线访问
+
+- [GitHub Pages](https://nekoaCat.github.io/ordersystem/)
+
 ## 项目功能
 
 本项目主要演示 Vue 3 的核心基础概念和常用技术：

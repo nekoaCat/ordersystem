@@ -1,7 +1,8 @@
 <template>
   <!-- 使用一个 class="person" 的 <div> 作为容器。 -->
   <div class="person">
-    Personcopy单文件组件加载成功</br>
+    <h1>Personcopy</h1>
+    <p>单文件组件加载成功</p>
     <!-- 内部通过插值语法 {{}} 分别显示姓名、年龄和电话，数据来源于 <script setup> 中定义的变量-->
     <h2>姓名: {{ name }}</h2>
     <h2>年龄: {{ age }}</h2>

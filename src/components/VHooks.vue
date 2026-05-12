@@ -1,5 +1,6 @@
 <template>
   <h2>当前求和</h2>
+  <h3>{{ count }}</h3>
   <button @click="count++">+1</button>
 </template>
 

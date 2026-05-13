@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { ref } from 'vue'
+import { onMounted,ref } from 'vue'
 export function useDogs() {
   let dogList = ref(['https://ygking.top/img/cover.jpg'])
   async function addDog() {
@@ -10,5 +10,8 @@ export function useDogs() {
       console.error('获取随机狗图片失败:', error);
     }
   }
+  onMounted(() => {
+    addDog();
+  });
   return { dogList, addDog };
 }

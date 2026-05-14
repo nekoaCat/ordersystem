@@ -1,5 +1,5 @@
 <template>
-  <div class="father">
+  <div class="Father">
     <h2>父组件 Father</h2>
     <p>从根组件 App 收到的数据：{{ appTitle }}</p>
     <!-- 显示父组件自己的数据（将作为非函数 props 传递给子组件） -->

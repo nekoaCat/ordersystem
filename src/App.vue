@@ -1,14 +1,12 @@
 <template>
   <div id="app">
-    <h1>Vue3 props通信演示（Father and Childs）</h1>
-    <Father :app-title="appTitle" />
+    <h1>Vue3 自定义事件示例：子组件向父组件通信</h1>
+    <Father />
   </div>
 </template>
 
 <script setup>
-import Father from './components/props/Father.vue'
-const appTitle = '这是父组件传递的标题'
-
+import Father from './components/emit/Father.vue'
 </script>
 
 <style scoped>

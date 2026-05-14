@@ -11,8 +11,10 @@ import { ref } from 'vue'
 
 const count = ref(0)
 
+const emit = defineEmits(['child-click'])
 const sendCountToFather = () => {
   count.value++
+  emit('child-click', count.value)
 }
 </script>
 
